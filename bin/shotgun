@@ -137,7 +137,11 @@ server.run app, options do |inst|
   puts "== Shotgun starting #{server.to_s} on http://#{options[:Host]}:#{options[:Port]}"
 
   if browse
-    require 'launchy'
-    Launchy.open("http://#{options[:Host]}:#{options[:Port]}#{options[:Path]}")
+    begin
+      require 'launchy'
+      Launchy.open("http://#{options[:Host]}:#{options[:Port]}#{options[:Path]}")
+    rescue LoadError
+      $stderr.puts "Unable to load 'launchy', the browser won't be launched."
+    end
   end
 end
